@@ -46,8 +46,8 @@ class Candidates(Base):
 
 class Votes(Base):
     __tablename__ = 'Votes'
-    user_id = Column(Integer, ForeignKey('User.id'), primary_key = True)
-    election_id = Column(Integer, ForeignKey('Election.id'), primary_key = True)
+    user_id = Column(Integer, nullable = False)
+    election_id = Column(Integer, nullable = False)
     first = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
     second = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
     third = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
@@ -76,6 +76,7 @@ class Election(Base):
 	id = Column(Integer, primary_key=True)
 	creator_id = Column(Integer, ForeignKey('User.id'))
 	description = Column(String, nullable = True)
+    votes = relationship('Candidates', )
 
 	def __init__(self, creator_id, description):
 		self.creator_id = creator_id
