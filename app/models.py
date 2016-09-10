@@ -13,7 +13,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
 from database import Base
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'Users'
     id = Column(Integer, primary_key = True)
     first_name = Column(String(50), nullable = False)
     last_name = Column(String(50), nullable = False)
@@ -29,7 +29,7 @@ class User(Base):
         return '<User %r %r>' % (self.first_name, self.last_name)
 
 class Candidates(Base):
-    __tablename__ = 'candidates'
+    __tablename__ = 'Candidates'
 
     id = Column(Integer, primary_key = True)
     name = Column(String(80), nullable = False)
