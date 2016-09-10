@@ -52,7 +52,7 @@ class Votes(Base):
     second = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
     third = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
 
-    ForeignKeyConstraint(['user_id','election_id'], ['User.id', 'Election.id'])
+    # ForeignKeyConstraint(['user_id','election_id'], ['User.id', 'Election.id'])
 
 
     def __init__(self, user_id, election_id, first, second, third):
