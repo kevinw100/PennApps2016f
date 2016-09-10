@@ -6,9 +6,6 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.sql.expression import func
 
-from Crypto.Hash import SHA256
-from datetime import datetime
-
 import itertools
 import math
 import random
@@ -25,38 +22,59 @@ def init_db():
 
 import models
 
-def userSignUp(first_name, last_name, email):
-#    exists = User.query.filter(User.email == email).first()
-#    if not exists:
-        user = User(first_name, last_name, email)
+def userSignUp(first_name, last_name, email, password):
+    exists = User.query.filter(User.email == email).first()
+    if not exists:
+        user = User(first_name, last_name, email, password)
         db_session.add(user)
         db_session.commit(user)
         return (user.id, '')
-#    else:
-#        return (False, 'This email is already in use.')
+    else:
+        return (False, 'This email has already been taken.')
 
-def authenticateLogin(email):
+def authenticateLogin(email, password):
     user = User.query.filter(User.email == email).first()
     if user:
-        phash = SHA256.new(password).hexdigest()
-        print (password, phash)
-        print u.password_hash
-        if phash == u.password_hash:
-            clone = User(u.first_name, u.last_name, u.email, '')
+        if user.password == password
+            clone = User(user.first_name, user.last_name, user.email)
             return clone
-    return False
+    return (False, 'The email or password is incorrect.')
 
-def createElection(candidates):
-    return None
+# candidates - a list of strings containing the names of the candidates
+# user_id - the id of the user that created the election
+# description - a string describing the election
+def createElection(user_id, description, candidates):
+    try:
+        election = Election(user_id, description)
+        db_session.add(election)
+        db_session.commit(election)
+        for c in candidates:
+            candidate = Candidates(c, election.id, False)
+            db_session.add(candidate)
+            db_session.commit(candidate)
+        return election.id
+    except Exception, e:
+        print e
+        return False
 
 def getElection(election_id):
-    return None
+    election = Election.query.filter(Election.id == election_id).first()
+    return election
 
-def getCandidates(candidate_ids):
-    return None
+def getCandidates(election_id):
+    try:
+        candidates = Candidates.query.filter(Candidates.election_id == election_id)
+        candidate_list = []
+        for candidate in candidates:
+            candidate_list.append(candidate)
+        return candidate_list
+    except Exception, e:
+        print e
+        return False
 
-def userVotes(first, second, third):
-    return None
+def userVotes(user_id, election_id, first, second, third):
+    vote = Votes(user_id, election_id, first, second, third)
+    return vote
 
 def getElectionResults(election_id):
     return None
