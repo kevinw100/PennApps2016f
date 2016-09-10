@@ -18,12 +18,12 @@ class User(Base):
     first_name = Column(String(50), nullable = False)
     last_name = Column(String(50), nullable = False)
     email = Column(String(50), nullable = False)
-    password = Column(String(50), nullable = False)
-    def __init__(self, first_name, last_name, email, password):
+    password_hash = Column(String, nullable=False)
+    def __init__(self, first_name, last_name, email, password_hash):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.password = password
+        self.password_hash = password_hash
 
     def __repr__(self):
         return '<User %r %r>' % (self.first_name, self.last_name)

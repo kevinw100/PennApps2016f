@@ -6,6 +6,9 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.sql.expression import func
 
+from Crypto.Hash import SHA256
+from datetime import datetime
+
 import itertools
 import math
 import random
@@ -23,20 +26,24 @@ def init_db():
 import models
 
 def userSignUp(first_name, last_name, email):
-    exists = User.query.filter(User.email == email).first()
-    if not exists:
+#    exists = User.query.filter(User.email == email).first()
+#    if not exists:
         user = User(first_name, last_name, email)
         db_session.add(user)
         db_session.commit(user)
         return (user.id, '')
-    else:
-        return (False, 'This email has already been taken.')
+#    else:
+#        return (False, 'This email is already in use.')
 
 def authenticateLogin(email):
     user = User.query.filter(User.email == email).first()
     if user:
-        clone = User(user.first_name, user.last_name, user.email)
-        return clone
+        phash = SHA256.new(password).hexdigest()
+        print (password, phash)
+        print u.password_hash
+        if phash == u.password_hash:
+            clone = User(u.first_name, u.last_name, u.email, '')
+            return clone
     return False
 
 def createElection(candidates):
