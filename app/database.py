@@ -1,5 +1,4 @@
-from sqlalchemy import Column, Boolean, BigInteger, DateTime, ForeignKey,
-Integer, Numeric, String, Table, Text
+from sqlalchemy import Column, Boolean, BigInteger, DateTime, ForeignKey, Integer, Numeric, String, Table, Text
 from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -24,7 +23,7 @@ import models
 
 def userSignUp(first_name, last_name, email, password):
     exists = User.query.filter(User.email == email).first()
-    if not exists:
+    if not exists:  
         user = User(first_name, last_name, email, password)
         db_session.add(user)
         db_session.commit(user)
@@ -35,7 +34,7 @@ def userSignUp(first_name, last_name, email, password):
 def authenticateLogin(email, password):
     user = User.query.filter(User.email == email).first()
     if user:
-        if user.password == password
+        if user.password == password:
             clone = User(user.first_name, user.last_name, user.email)
             return clone
     return (False, 'The email or password is incorrect.')
