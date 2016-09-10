@@ -17,10 +17,12 @@ class User(Base):
     id = Column(Integer, primary_key = True)
     first_name = Column(String(50), nullable = False)
     last_name = Column(String(50), nullable = False)
+    email = Column(String(50), nullable = False)
 
-    def __init__(self, first_name, last_name):
+    def __init__(self, first_name, last_name, email):
         self.first_name = first_name
         self.last_name = last_name
+        self.email = email
 
     def __repr__(self):
         return '<User %r %r>' % (self.first_name, self.last_name)
@@ -30,14 +32,54 @@ class Candidates(Base):
 
     id = Column(Integer, primary_key = True)
     name = Column(String(80), nullable = False)
+    election_id = Column(Integer, ForeignKey('Election.id'))
+    eliminated = Column(Boolean)
 
-    def __init__(self, name):
+    def __init__(self, name, election_id, eliminated):
         self.name = name
+        self.election_id = election_id
+        self.eliminated = eliminated
 
     def __repr__(self):
-        return '<Candidate %r>' % (self.name)
+        return '<Candidate %r election: %d>' % (self.name, self.election_id)
 
 class Votes(Base):
     __tablename__ = 'votes'
-    user_id = Column(Integer, primary_key = True)
-    rank =
+    user_id = Column(Integer, ForeignKey('User.id'), primary_key = True)
+    election_id = Column(Integer, ForeignKey('Election.id'), primary_key = True)
+    first = Column(String, nullable = True)
+    second = Column(String, nullable = True)
+    third = Column(String, nullable = True)
+
+    ForeignKeyConstraint(['user_id','election_id'], ['User.id', 'Election.id'])
+
+
+    def __init__(self, user_id, election_id, first, second, third):
+    	self.user_id = user_id
+    	self.election_id = election_id
+        self.first = first
+        self.second = second
+        self.third = third
+
+    def __repr__(self):
+        return '<Votes %r %r with votes : %r %r %r >' % (self.election_id, self.last_name, self.first, self.second, self.third)
+
+
+#class Rank(Base):
+#	__tablename__ = 'Voter Rank'
+#	election_id = Column(Integer, ForeignKey('Election.id'))
+
+
+class Election(Base):
+
+	id = Column(Integer, primary_key=True)
+	creator_id = Column(Integer, ForeignKey('User.id'))
+	description = Column(String, nullable = True)
+
+	def __init__(self, creator_id, description):
+		self.creator_id = creator_id
+		self.description = description
+
+	def __repr__(self):
+		return '<Election %r %r>' % (self.creator_id, self.description)
+
