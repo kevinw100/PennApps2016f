@@ -13,7 +13,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
 from database import Base
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'Users'
     id = Column(Integer, primary_key = True)
     first_name = Column(String(50), nullable = False)
     last_name = Column(String(50), nullable = False)
@@ -29,7 +29,7 @@ class User(Base):
         return '<User %r %r>' % (self.first_name, self.last_name)
 
 class Candidates(Base):
-    __tablename__ = 'candidates'
+    __tablename__ = 'Candidates'
 
     id = Column(Integer, primary_key = True)
     name = Column(String(80), nullable = False)
@@ -45,12 +45,12 @@ class Candidates(Base):
         return '<Candidate %r election: %d>' % (self.name, self.election_id)
 
 class Votes(Base):
-    __tablename__ = 'votes'
+    __tablename__ = 'Votes'
     user_id = Column(Integer, ForeignKey('User.id'), primary_key = True)
     election_id = Column(Integer, ForeignKey('Election.id'), primary_key = True)
-    first = Column(String, nullable = True)
-    second = Column(String, nullable = True)
-    third = Column(String, nullable = True)
+    first = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
+    second = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
+    third = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
 
     ForeignKeyConstraint(['user_id','election_id'], ['User.id', 'Election.id'])
 
@@ -72,7 +72,7 @@ class Votes(Base):
 
 
 class Election(Base):
-
+	__tablename__ = 'Elections'
 	id = Column(Integer, primary_key=True)
 	creator_id = Column(Integer, ForeignKey('User.id'))
 	description = Column(String, nullable = True)

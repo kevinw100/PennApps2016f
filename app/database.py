@@ -50,7 +50,9 @@ def createElection(candidates):
     return None
 
 def getElection(election_id):
-    return None
+    election = Election.query.filter(Election.id == election_id).first()
+    if election:
+    	election = 
 
 def getCandidates(candidate_ids):
     return None
