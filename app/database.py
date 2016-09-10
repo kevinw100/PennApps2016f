@@ -6,6 +6,9 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.sql.expression import func
 
+from Crypto.Hash import SHA256
+from datetime import datetime
+
 import itertools
 import math
 import random
