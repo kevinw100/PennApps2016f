@@ -19,3 +19,37 @@ Base.query = db_session.query_property()
 def init_db():
     import models
     Base.metadata.creat_all(bind = engine)
+
+import models
+
+def userSignUp(first_name, last_name, email):
+    exists = User.query.filter(User.email == email).first()
+    if not exists:
+        user = User(first_name, last_name, email)
+        db_session.add(user)
+        db_session.commit(user)
+        return (user.id, '')
+    else:
+        return (False, 'This email has already been taken.')
+
+def authenticateLogin(email):
+    user = User.query.filter(User.email == email).first()
+    if user:
+        clone = User(user.first_name, user.last_name, user.email)
+        return clone
+    return False
+
+def createElection(candidates):
+    return None
+
+def getElection(election_id):
+    return None
+
+def getCandidates(candidate_ids):
+    return None
+
+def userVotes(first, second, third):
+    return None
+
+def getElectionResults(election_id):
+    return None
