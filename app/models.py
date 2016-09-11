@@ -49,7 +49,7 @@ class Candidates(Base):
 
 class Votes(Base):
 	__tablename__ = 'Votes'
-	user_id = Column(Integer, ForeignKey('User.id'))
+	user_id = Column(Integer, ForeignKey('User.id'), primary_key = True)
 	election_id = Column(Integer, ForeignKey('Election.id'))
 	first = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
 	second = Column(Integer, ForeignKey('Candidate.id'), nullable = True)
@@ -107,5 +107,5 @@ class Election(Base):
 	def getId(self):
 		return self.id
 
-	def getVotes(self)
+	def getVotes(self):
 		return self.votes

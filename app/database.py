@@ -78,7 +78,7 @@ def userVotes(user_id, election_id, first, second, third):
 def getElectionResults(election_id):
 	return None
 
-def addVote(user_id, election_id, candidate_id, first, second, third)
+def addVote(user_id, election_id, candidate_id, first, second, third):
 	try:
 		userExists = Votes.query(Users.id == user_id and Elections.id == election_id)
 		if userExists is False:
@@ -92,13 +92,13 @@ def addVote(user_id, election_id, candidate_id, first, second, third)
 			return True;
 		else:  
 			return False
-	except Exception e:
+	except Exception, e:
 		print e;
 		return False
 
 
 
-def calculateElection(election_id)
+def calculateElection(election_id):
 	election = Elections.query(Elections.id == election_id).first()
 	votesList = Votes.query(Votes.election_id == election_id).all()
 	candidates = getCandidates(election_id)
@@ -148,7 +148,7 @@ def find(list, id):
 
 def minIntList(list):
 	min = (-1, sys.maxint)
-	for(i in xrange(len(list))):
+	for i in xrange(len(list)):
 		if list[i] > max[1]:
 			max = (i,list[i])
 	return max
